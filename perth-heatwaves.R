@@ -4,7 +4,9 @@
 # Created by Ajahn Jhanarato, 2021.
 
 library(tidyverse)
+library(lubridate)
 
+# Import the BOM maximum temperature data.
 temp_data <- read_csv("perth-temp.csv",
                       col_names = c("product", "station", 
                                     "year", "month", "day",
@@ -17,7 +19,8 @@ temp_data <- read_csv("perth-temp.csv",
                         ),
                       skip = 1)
 
-
 temp_data <- temp_data %>% 
-  select(year, month, day, max_temp) %>%
-  na.omit()
+  na.omit()%>% 
+  mutate(bom_date = make_date(year, month, day)) %>% 
+  filter(max_temp >= 40) %>%
+  select(bom_date, max_temp)
