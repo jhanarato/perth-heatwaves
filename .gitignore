@@ -37,3 +37,7 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+# Copyright data, don't upload
+IDCJAC0009_9021_1800_Data.csv
+IDCJAC0009_9021_1800_Note.txt
