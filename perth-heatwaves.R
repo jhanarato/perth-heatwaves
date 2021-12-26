@@ -49,3 +49,12 @@ heatwaves <- heatwaves %>%
     heatwave_id = cumsum(increment)
   ) %>%
   select(-increment)
+
+# Get start date and duration of each heatwave.
+heatwaves %>%
+  group_by(heatwave_id) %>%
+  summarise(
+    start = min(bom_date),
+    num_days = length(bom_date)
+  ) %>%
+  arrange(desc(num_days))
