@@ -51,10 +51,25 @@ heatwaves <- heatwaves %>%
   select(-increment)
 
 # Get start date and duration of each heatwave.
-heatwaves %>%
+heatwave_stats <- heatwaves %>%
   group_by(heatwave_id) %>%
   summarise(
-    start = min(bom_date),
-    num_days = length(bom_date)
+    start = as.character(min(bom_date)),
+    num_days = length(bom_date),
+    max_temp = max(max_temp)
   ) %>%
   arrange(desc(num_days))
+
+heatwave_stats %>% 
+  slice_head(n = 5) %>%
+  ggplot() + geom_col(aes(x = start, 
+                          y = num_days), fill = "lightsteelblue4") +
+  labs(
+    title = "Perth Heatwaves",
+    x = "Date Heatwave Began",
+    y = "Consecutive days over 40C"
+  ) +
+  scale_y_continuous(limits = c(0, 6), breaks = c(0:6)) +
+  theme_classic() + 
+  theme(plot.title = element_text(hjust = 0.5, 
+                                  size = 20))
